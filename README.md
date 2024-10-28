@@ -90,7 +90,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Special thanks to the contributors and libraries that made this project possible.
-- This application is built using a Llama model for natural language processing. For more information on Llama models, refer to the respective documentation.
+- This application is built using a LLM model for natural language processing. For more information on LLM models, refer to the respective documentation.
 
 ---
 

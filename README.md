@@ -95,3 +95,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Feel free to customize any sections to better fit your project's specifics or add more information as needed!
+
+
+![picture]("https://github.com/ssyasa/chatbot-app/blob/main/Screenshot%202024-10-29%20020112.png")
+
+![picture]("https://github.com/ssyasa/chatbot-app/blob/main/Screenshot%202024-10-29%20020122.png")

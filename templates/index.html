@@ -19,6 +19,9 @@
             background: linear-gradient(135deg, #e0eafc, #cfdef3);
             color: #333;
             transition: background-color 0.5s, color 0.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;  /* Center all content horizontally */
         }
         body.dark-mode {
             background: linear-gradient(135deg, #232526, #414345);
@@ -52,6 +55,9 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
+            width: 100%;
+            max-width: 600px;  /* Center chatbox with max width */
+            margin: 20px 0;  /* Add margin above and below the chatbox */
             transition: background-color 0.5s, transform 0.3s;
             animation: slideIn 1s ease-out;
         }
@@ -67,6 +73,7 @@
         .message-container {
             display: flex;
             margin: 10px 0;
+            padding: 10px 0;  /* Add padding for spacing */
         }
         .message {
             padding: 12px 18px;
@@ -77,6 +84,7 @@
             animation: fadeInUp 0.6s ease;
             transition: transform 0.2s;
             word-wrap: break-word;
+            margin-bottom: 15px;  /* Add spacing between messages */
         }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(15px); }
@@ -110,19 +118,16 @@
         }
         body.dark-mode .user-message {
             background-color: #0056b3;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
         }
         body.dark-mode .llama-message {
             background-color: #2b2929;
             color: #0e7bf0;
-            text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.2);
         }
 
         /* Markdown Styling */
         .llama-message h1, .llama-message h2, .llama-message h3 {
             color: #0078FF;
-            margin-top: 8px;
-            margin-bottom: 4px;
+            margin: 10px 0;  /* Increased spacing */
         }
         .llama-message h1 { font-size: 1.5em; }
         .llama-message h2 { font-size: 1.3em; }
@@ -130,11 +135,11 @@
 
         .llama-message ul {
             list-style: disc inside;
-            margin: 8px 0;
+            margin: 10px 0;  /* Increased spacing */
             padding-left: 20px;
         }
         .llama-message li {
-            margin-bottom: 4px;
+            margin-bottom: 8px;  /* Increased spacing */
         }
         
         .llama-message blockquote {
@@ -142,7 +147,7 @@
             padding-left: 10px;
             color: #555;
             font-style: italic;
-            margin: 8px 0;
+            margin: 10px 0;  /* Increased spacing */
         }
         
         /* Code Block Styling */
@@ -171,12 +176,15 @@
         /* Input and Button Styling */
         .user-input {
             display: flex;
+            justify-content: center;  /* Center input and buttons */
             margin-top: 20px;
             padding: 12px;
             background-color: #f9f9f9;
             border-radius: 12px;
             box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s;
+            width: 100%;
+            max-width: 600px;  /* Center input area with max width */
         }
         .user-input:hover {
             box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
@@ -229,7 +237,7 @@
     <h1>Chat with Llama Model</h1>
     <div id="chatbox">
         <div id="response"></div>
-        <div id="loading">Loading...</div>
+        <div id="loading" style="display: none;">Loading...</div>
     </div>
     <div class="user-input">
         <input type="text" id="user_input" placeholder="Type your message here..." />
@@ -242,10 +250,11 @@
             message = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             message = message.replace(/\*(.*?)\*/g, '<em>$1</em>');
             message = message.replace(/`(.*?)`/g, '<code>$1</code>');
-            message = message.replace(/#{3} (.*?)(\n|$)/g, '<h3>$1</h3>');
-            message = message.replace(/#{2} (.*?)(\n|$)/g, '<h2>$1</h2>');
-            message = message.replace(/# (.*?)(\n|$)/g, '<h1>$1</h1>');
-            message = message.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+            message = message.replace(/#{3} (.*?)(\n|$)/g, '<h3>$1</h3><br>');  // Added <br> for spacing
+            message = message.replace(/#{2} (.*?)(\n|$)/g, '<h2>$1</h2><br>');  // Added <br> for spacing
+            message = message.replace(/# (.*?)(\n|$)/g, '<h1>$1</h1><br>');  // Added <br> for spacing
+            message = message.replace(/(\n{2,})/g, '<br><br>'); // Ensures paragraphs have spacing
+
             return message;
         }
 

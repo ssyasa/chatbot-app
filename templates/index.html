@@ -17,6 +17,20 @@
             background-color: #2C2C2C;
             color: #EAEAEA;
         }
+        /* Dark mode toggle icon styles */
+        #dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #0078FF;
+            transition: color 0.5s;
+        }
+        body.dark-mode #dark-mode-toggle {
+            color: #FFD700; /* Yellow color for dark mode */
+        }
+        /* Chatbox styles */
         #chatbox {
             max-height: 70vh;
             overflow-y: auto;
@@ -67,6 +81,7 @@
             background-color: #2b2929;
             color: #0e7bf0;
         }
+        /* Input and button styles */
         .user-input {
             display: flex;
             margin-top: 10px;
@@ -124,6 +139,9 @@
     </style>
 </head>
 <body>
+    <!-- Dark mode toggle icon -->
+    <div id="dark-mode-toggle" onclick="toggleDarkMode()">🌙</div>
+    
     <h1>Chat with Llama Model</h1>
     <div id="chatbox">
         <div id="response"></div>
@@ -134,7 +152,6 @@
         <button onclick="sendMessage()">Send</button>
         <button onclick="confirmClearChat()">Clear</button>
     </div>
-    <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
     <script>
         function formatMessage(message) {
@@ -189,6 +206,8 @@
 
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
     </script>
 </body>

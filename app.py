@@ -1,13 +1,23 @@
+import os
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-import time
 from huggingface_hub import InferenceClient
+from dotenv import load_dotenv
+import time
+
+# Load environment variables from the .env file
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Initialize the InferenceClient with your Hugging Face API key
-client = InferenceClient(api_key="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")
+# Get the Hugging Face API key from environment variables
+api_key = os.getenv("HUGGINGFACE_API_KEY")
+if not api_key:
+    raise ValueError("API key for Hugging Face not found in .env file")
+
+# Initialize the InferenceClient with the API key
+client = InferenceClient(api_key=api_key)
 
 # Rate limiting variables
 last_request_time = time.time()
@@ -54,8 +64,9 @@ def get_llama_response(message):
 
         last_request_time = current_time
         return format_response(response_content)
+        
     except Exception as e:
-        return f"An error occurred: {str(e)}"
+        return f"An error occurred: {str(e)}"  # Make sure this line is properly indented
 
 @app.route('/')
 def index():

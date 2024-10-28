@@ -9,79 +9,84 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f0f0f0; /* Light background for light mode */
+            background-color: #f0f0f0;
             color: #333;
             transition: background-color 0.5s, color 0.5s;
         }
         body.dark-mode {
-            background-color: #2C2C2C; /* Darker background for dark mode */
-            color: #EAEAEA; /* Light text color for dark mode */
+            background-color: #2C2C2C;
+            color: #EAEAEA;
         }
         #chatbox {
-            max-height: 70vh; /* Limit the height of the chatbox */
-            overflow-y: auto; /* Enable scrolling */
-            background-color: #fff; /* White background for chatbox */
+            max-height: 70vh;
+            overflow-y: auto;
+            background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             padding: 15px;
             display: flex;
-            flex-direction: column; /* Stack messages vertically */
-            position: relative; /* Ensure proper placement of loading indicator */
-            transition: background-color 0.5s; /* Transition for background color */
+            flex-direction: column;
+            position: relative;
+            transition: background-color 0.5s;
         }
         body.dark-mode #chatbox {
-            background-color: #1E1E1E; /* Dark background for chatbox in dark mode */
+            background-color: #1E1E1E;
+        }
+        .message-container {
+            display: flex;
+            margin: 10px 0;
         }
         .message {
-            margin: 10px 0;
             padding: 10px 15px;
             border-radius: 20px;
-            max-width: 70%; /* Limit width for messages */
+            max-width: 60%;
             position: relative;
-            display: inline-block; /* Allow margin to work */
-            animation: fadeIn 0.5s; /* Fade-in effect for messages */
+            animation: fadeIn 0.5s;
+            word-wrap: break-word;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .user-container {
+            justify-content: flex-end;
         }
         .user-message {
-            background-color: #0078FF; /* Blue background for user messages */
+            background-color: #0078FF;
             color: white;
-            margin-left: auto; /* Align to the right */
+            text-align: right;
         }
-        body.dark-mode .user-message {
-            background-color: #0056b3; /* Darker blue for dark mode */
+        .llama-container {
+            justify-content: flex-start;
         }
         .llama-message {
-            background-color: #cae4ff; /* Light blue background for Llama responses */
+            background-color: #cae4ff;
             color: #333;
-            margin-right: auto; /* Align to the left */
+            text-align: left;
+        }
+        body.dark-mode .user-message {
+            background-color: #0056b3;
         }
         body.dark-mode .llama-message {
-            background-color: #2b2929; /* Dark background for Llama responses in dark mode */
-            color: #0e7bf0; /* Light text color for Llama responses in dark mode */
+            background-color: #2b2929;
+            color: #0e7bf0;
         }
         .user-input {
-            display: flex; /* Flexbox for input layout */
-            margin-top: 10px; /* Space above input */
+            display: flex;
+            margin-top: 10px;
             padding: 10px;
-            border-top: 1px solid #ccc; /* Separator line */
-            background-color: #f9f9f9; /* Light background for input area */
+            border-top: 1px solid #ccc;
+            background-color: #f9f9f9;
             border-radius: 8px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Shadow for input area */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
         input[type="text"] {
-            flex: 1; /* Allow input to take available space */
+            flex: 1;
             padding: 10px;
-            border: 1px solid #ccc; /* Border for input */
+            border: 1px solid #ccc;
             border-radius: 20px;
-            margin-right: 10px; /* Space between input and button */
-            transition: border-color 0.3s; /* Transition for border color */
+            margin-right: 10px;
+            transition: border-color 0.3s;
         }
         input[type="text"]:focus {
-            border-color: #0078FF; /* Focus border color */
-            outline: none; /* Remove default outline */
+            border-color: #0078FF;
+            outline: none;
         }
         button {
             padding: 10px 15px;
@@ -90,27 +95,31 @@
             border: none;
             border-radius: 20px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s; /* Transition for hover and active state */
+            transition: background-color 0.3s, transform 0.2s;
         }
         button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-            transform: translateY(-2px); /* Lift effect on hover */
+            background-color: #0056b3;
+            transform: translateY(-2px);
         }
         button:active {
-            transform: translateY(0); /* Reset lift effect on click */
+            transform: translateY(0);
         }
         body.dark-mode button {
-            background-color: #444; /* Dark button for dark mode */
-            color: #fff; /* White text for dark mode */
+            background-color: #444;
+            color: #fff;
         }
         body.dark-mode button:hover {
-            background-color: #666; /* Darker on hover for dark mode */
+            background-color: #666;
         }
         #loading {
-            display: none; /* Hide loading indicator initially */
+            display: none;
             margin-top: 10px;
-            color: #0078FF; /* Color for loading text */
-            animation: fadeIn 0.5s; /* Fade-in for loading text */
+            color: #0078FF;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -128,48 +137,54 @@
     <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
     <script>
+        function formatMessage(message) {
+            message = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            message = message.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            message = message.replace(/`(.*?)`/g, '<code>$1</code>');
+            return message;
+        }
+
         async function sendMessage() {
             const userInput = document.getElementById('user_input').value;
             const responseDiv = document.getElementById('response');
             const loadingDiv = document.getElementById('loading');
 
             if (!userInput.trim()) {
-                alert("Please enter a message."); // Validate user input
+                alert("Please enter a message.");
                 return;
             }
 
-            loadingDiv.style.display = "block"; // Show loading indicator
-            responseDiv.innerHTML += `<div class="message user-message">${userInput}</div>`; // Add user message
-            document.getElementById('user_input').value = ''; // Clear input field
+            loadingDiv.style.display = "block";
+            const formattedUserInput = formatMessage(userInput);
+            responseDiv.innerHTML += `<div class="message-container user-container"><div class="message user-message">${formattedUserInput}</div></div>`;
+            document.getElementById('user_input').value = '';
 
             try {
                 const response = await fetch('/llama', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_input: userInput }),
                 });
 
                 const data = await response.json();
-                responseDiv.innerHTML += `<div class="message llama-message">${data.content}</div>`; // Add Llama's response
-                responseDiv.scrollTop = responseDiv.scrollHeight; // Scroll to the bottom
+                responseDiv.innerHTML += `<div class="message-container llama-container"><div class="message llama-message">${formatMessage(data.content)}</div></div>`;
+                responseDiv.scrollTop = responseDiv.scrollHeight;
             } catch (error) {
-                responseDiv.innerHTML += `<div class="message llama-message"><strong>Error:</strong> Failed to fetch response. Please try again later.</div>`;
+                responseDiv.innerHTML += `<div class="message-container llama-container"><div class="message llama-message"><strong>Error:</strong> Failed to fetch response. Please try again later.</div></div>`;
             } finally {
-                loadingDiv.style.display = "none"; // Hide loading indicator
+                loadingDiv.style.display = "none";
             }
         }
 
         function confirmClearChat() {
             if (confirm("Are you sure you want to clear the chat?")) {
-                clearChat(); // Clear chat if confirmed
+                clearChat();
             }
         }
 
         function clearChat() {
-            document.getElementById('response').innerHTML = ''; // Clear response
-            document.getElementById('user_input').value = ''; // Clear input field
+            document.getElementById('response').innerHTML = '';
+            document.getElementById('user_input').value = '';
         }
 
         function toggleDarkMode() {

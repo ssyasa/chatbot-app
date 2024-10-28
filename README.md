@@ -1,7 +1,3 @@
-Here’s an improved version of your README file, with enhanced clarity, organization, and additional details to engage users and contributors more effectively.
-
----
-
 # Chatbot-1
 
 ## Overview
@@ -34,12 +30,12 @@ To set up the project locally, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/chat-with-llama.git
+   git clone https://github.com/yourusername/chatbot-app.git
    ```
 
 2. **Navigate to the project directory**:
    ```bash
-   cd chat-with-llama
+   cd chatbot-app
    ```
 
 3. **Open `index.html` in your web browser**:
